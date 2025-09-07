@@ -1,3 +1,13 @@
 *{
      font-family: "Inter", sans-serif;
 }
+:root{
+     --btn-bg:#15803d;
+     --btn-text:#FFFFFF;
+}
+.active{
+     background-color: var(--btn-bg);
+     color: var(--btn-text);
+     padding: 8px 0;
+     border-radius: 6px;
+}

@@ -13,12 +13,25 @@ const loadAllTrees = () => {
         .then(allTress => displayAllTrees(allTress.plants))
 }
 
+const removeActive=()=>{
+    const removeActiveBtn=document.querySelectorAll(".green-btn");
+    // console.log(removeActiveBtn)
+    removeActiveBtn.forEach(btn=>btn.classList.remove("active"));
+
+}
+
 const loadCategoryTree=(id1,name)=>{
-    console.log(id1,name)
+    // console.log(id1,name)
     const url=`https://openapi.programming-hero.com/api/category/${id1}`;
     fetch(url)
     .then(res=>res.json())
-    .then(tree=>displayCategoryTree(tree.plants,name))
+    .then(tree=>{
+        removeActive()
+        const treeBtn=document.getElementById(`tree-btn-${id1}`);
+        treeBtn.classList.add("active")
+        // console.log(treeBtn)
+        displayCategoryTree(tree.plants,name)
+    })
 }
 
 const displayCategoryTree=(trees,name)=>{
@@ -29,7 +42,7 @@ const displayCategoryTree=(trees,name)=>{
 
     sameTreeContainer.innerHTML="";
     trees.forEach(tree=>{
-        console.log(tree.category)
+        // console.log(tree.category)
         if(tree.category===name){
             // console.log("same trees")
             const newTreeDiv=document.createElement("div")
@@ -89,7 +102,7 @@ const displayCategories = (plants) => {
     plants.forEach(plant => {
         // console.log(plant)
         categoriesContainer.innerHTML += `
-        <button onclick="loadCategoryTree('${plant.id}','${plant.category_name}')" class="w-4/5 cursor-pointer  my-2 hover:text-white hover:bg-[#15803d] hover:rounded-md hover:p-2 transition duration-1000">${plant.category_name}</button>
+        <button id="tree-btn-${plant.id}" onclick="loadCategoryTree('${plant.id}','${plant.category_name}')" class="w-4/5 cursor-pointer  my-2 hover:text-white hover:bg-[#15803d] hover:rounded-md hover:p-2 transition duration-1000 green-btn">${plant.category_name}</button>
         `
     })
 }
