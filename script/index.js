@@ -14,53 +14,66 @@ const loadAllTrees = () => {
         .then(allTress => displayAllTrees(allTress.plants))
 }
 
-const removeActive=()=>{
-    const removeActiveBtn=document.querySelectorAll(".green-btn");
+const removeActive = () => {
+    const removeActiveBtn = document.querySelectorAll(".green-btn");
     // console.log(removeActiveBtn)
-    removeActiveBtn.forEach(btn=>btn.classList.remove("active"));
+    removeActiveBtn.forEach(btn => btn.classList.remove("active"));
 
 }
 
-const loadCategoryTree=(id1,name)=>{
+const loadCategoryTree = (id1, name) => {
     // console.log(id1,name)
-    const url=`https://openapi.programming-hero.com/api/category/${id1}`;
+    const url = `https://openapi.programming-hero.com/api/category/${id1}`;
     fetch(url)
-    .then(res=>res.json())
-    .then(tree=>{
-        removeActive()
-        const treeBtn=document.getElementById(`tree-btn-${id1}`);
-        treeBtn.classList.add("active")
-        // console.log(treeBtn)
-        displayCategoryTree(tree.plants,name)
-    })
+        .then(res => res.json())
+        .then(tree => {
+            removeActive()
+            const treeBtn = document.getElementById(`tree-btn-${id1}`);
+            treeBtn.classList.add("active")
+            // console.log(treeBtn)
+            displayCategoryTree(tree.plants, name)
+        })
 }
 
-const loadTreeDetails=(info)=>{
-    const url=`https://openapi.programming-hero.com/api/plant/${info}`
+const loadTreeDetails = (info) => {
+    const url = `https://openapi.programming-hero.com/api/plant/${info}`
     fetch(url)
-    .then(res=>res.json())
-    .then(data=>displayTreeDetails(data.plants))
+        .then(res => res.json())
+        .then(data => displayTreeDetails(data.plants))
 }
-const displayTreeDetails=(details)=>{
-    const detailsContainer=document.getElementById("details-container");
-    detailsContainer.innerHTML=`i am for js`;
+const displayTreeDetails = (details) => {
+    // console.log(details)
+    const detailsContainer = document.getElementById("details-container");
+    detailsContainer.innerHTML = `
+    <div class="bg-white rounded-md space-y-3 max-h-lg">
+                            <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${details.image}" alt="">
+                            <div class="p-4 space-y-3">
+                            <p  class="font-bold">${details.name}</p>
+                            <p class="text-justify">${details.description}</p>
+                            <div class="flex justify-between items-center">
+                                <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${details.category}</p>
+                                <p>৳<span>${details.price}</span></p>
+                            </div>
+                            </div>
+                        </div>
+    `;
     document.getElementById("my_modal_5").showModal()
 }
 
-const displayCategoryTree=(trees,name)=>{
+const displayCategoryTree = (trees, name) => {
     // console.log(name)
-    const  cardContainer = document.getElementById("card-container1");
-    const sameTreeContainer=document.getElementById("card-container2");
+    const cardContainer = document.getElementById("card-container1");
+    const sameTreeContainer = document.getElementById("card-container2");
     cardContainer.classList.add("hidden");
 
-    sameTreeContainer.innerHTML="";
-    trees.forEach(tree=>{
+    sameTreeContainer.innerHTML = "";
+    trees.forEach(tree => {
         // console.log(tree.category)
-        if(tree.category===name){
+        if (tree.category === name) {
             // console.log("same trees")
-            const newTreeDiv=document.createElement("div")
-            newTreeDiv.innerHTML=`
-            <div class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
+            const newTreeDiv = document.createElement("div")
+            newTreeDiv.innerHTML = `
+            <div id="cart-div" class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
                             <p onclick="loadTreeDetails('${tree.id}')"  class="font-bold">${tree.name}</p>
@@ -69,7 +82,7 @@ const displayCategoryTree=(trees,name)=>{
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
                                 <p>৳<span>${tree.price}</span></p>
                             </div>
-                            <button class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out">Add To Card</button>
+                            <button class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out add-cart-btn">Add To Cart</button>
                             </div>
                         </div>
             `
@@ -84,9 +97,10 @@ const displayAllTrees = (allTress) => {
     cardContainer.innerHTML = "";
     allTress.forEach(tree => {
         // console.log(tree)
+        
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
-        <div class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
+        <div id="cart-div" class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
                             <p onclick="loadTreeDetails('${tree.id}')" class="font-bold">${tree.name}</p>
@@ -95,7 +109,7 @@ const displayAllTrees = (allTress) => {
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
                                 <p>৳<span>${tree.price}</span></p>
                             </div>
-                            <button class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out">Add To Card</button>
+                            <button class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out add-cart-btn">Add To Cart</button>
                             </div>
                         </div>
         `
@@ -121,3 +135,25 @@ const displayCategories = (plants) => {
 }
 loadCategories()
 loadAllTrees()
+
+
+const cardContainer = document.getElementById("card-container1");
+cardContainer.addEventListener("click",function(event){
+    const yourCart=document.getElementById("your-cart");
+    if(event.target.className.includes("add-cart-btn")){
+        const cartDiv=document.createElement("div");
+        cartDiv.innerHTML=`
+        <div class="bg-[#F0FDF4] p-2 rounded-md my-2">
+                        <p>Mango tree</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-gray-400">500</p>
+                            <p>❌</p>
+                        </div>
+                    </div>
+        `
+        yourCart.appendChild(cartDiv)
+    }
+})
+
+
+
