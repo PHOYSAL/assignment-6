@@ -75,7 +75,7 @@
     <main>
         <section class="w-11/12 mx-auto">
             <h4 class="text-2xl font-semibold text-center mt-20">Choose Your Trees</h4>
-            <div class="grid md:grid-cols-12 gap-2 mt-5">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 mt-5">
                 <!-- Categories div  -->
                 <div class="text-center md:text-left col-span-full md:col-span-2">
                     <p class="text-lg font-bold text-center mb-10">Categories</p>
@@ -108,7 +108,7 @@
                     <hr>
                     <div class="flex justify-between items-center">
                         <p>Total:</p>
-                        <span>0</span>
+                        <span id="total-price">0</span>
                     </div>
                 </div>
             </div>
@@ -175,9 +175,9 @@
         </section>
     </main>
     <footer class="">
-        <section class="py-20 bg-[#166534]">
+        <section class="py-20 bg-[#166534] p-4">
             <div
-                class="flex flex-col justify-center items-center bg-[#15803d] w-[530px] mx-auto py-10 rounded-lg shadow-lg gap-y-3">
+                class="flex flex-col justify-center items-center bg-[#15803d] md:w-[530px] mx-auto py-10 rounded-lg shadow-lg gap-y-3 p-2">
 
                 <input type="text" placeholder="Your Name" class="input" />
 
@@ -185,12 +185,12 @@
 
                 <select class="select">
                     <option disabled selected>Number of Tress</option>
-                    <option>Crimson</option>
-                    <option>Amber</option>
-                    <option>Velvet</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
                 </select>
 
-                <button class="btn w-9/12 rounded-3xl bg-[#FACC15] text-[#15803D]">Donate Now</button>
+                <button class="btn w-11/12 md:w-9/12 rounded-3xl bg-[#FACC15] text-[#15803D]">Donate Now</button>
 
             </div>
 

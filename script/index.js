@@ -141,22 +141,19 @@ const displayCategories = (plants) => {
 loadCategories()
 loadAllTrees()
 
-//  const addToCart=(trees)=>{
-//     const clickedId=document.getElementById("")
-//     trees.find(tree=>{
-      
-//     })
-     
-//  }
+
 const cardContainer = document.getElementById("card-container1");
 cardContainer.addEventListener("click", function (event) {
     const yourCart = document.getElementById("your-cart");
-    // console.log(event.target.parentNode.children[2].children[1].children[0].innerText)
+   
     const treeName=event.target.parentNode.children[0].innerText
-    // console.log(treeName)
-    const treePrice=Number(event.target.parentNode.children[2].children[1].children[0].innerText)
-    // console.log(treePrice)
     
+    const treePrice=Number(event.target.parentNode.children[2].children[1].children[0].innerText)
+    
+    const totalPrice=Number(document.getElementById("total-price").innerText)
+   
+    let currentPrice=totalPrice+treePrice;
+    document.getElementById("total-price").innerText=currentPrice;
     if (event.target.className.includes("add-cart-btn")) {
         const cartDiv = document.createElement("div");
         cartDiv.innerHTML = `
@@ -172,6 +169,3 @@ cardContainer.addEventListener("click", function (event) {
         yourCart.appendChild(cartDiv)
     }
 })
-
-
-
