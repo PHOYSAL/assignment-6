@@ -11,7 +11,11 @@ const loadAllTrees = () => {
     const url = 'https://openapi.programming-hero.com/api/plants'
     fetch(url)
         .then(res => res.json())
-        .then(allTress => displayAllTrees(allTress.plants))
+        .then(allTress => {
+            displayAllTrees(allTress.plants)
+            // addToCart(allTress.plants)
+        })
+        
 }
 
 const removeActive = () => {
@@ -76,7 +80,7 @@ const displayCategoryTree = (trees, name) => {
             <div id="cart-div" class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
-                            <p onclick="loadTreeDetails('${tree.id}')"  class="font-bold">${tree.name}</p>
+                            <p onclick="loadTreeDetails('${tree.id}')"  class="font-bold cursor-pointer">${tree.name}</p>
                             <p class="line-clamp-3 text-justify">${tree.description}</p>
                             <div class="flex justify-between items-center">
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
@@ -96,25 +100,26 @@ const displayAllTrees = (allTress) => {
     const cardContainer = document.getElementById("card-container1");
     cardContainer.innerHTML = "";
     allTress.forEach(tree => {
-        // console.log(tree)
-        
+        // console.log(tree.id)
+
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
         <div id="cart-div" class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
-                            <p onclick="loadTreeDetails('${tree.id}')" class="font-bold">${tree.name}</p>
+                            <p onclick="loadTreeDetails('${tree.id}')" class="font-bold cursor-pointer">${tree.name}</p>
                             <p class="line-clamp-3 text-justify">${tree.description}</p>
                             <div class="flex justify-between items-center">
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
                                 <p>৳<span>${tree.price}</span></p>
                             </div>
-                            <button class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out add-cart-btn">Add To Cart</button>
+                            <button id="add-cart-${tree.id}" class="btn w-full rounded-3xl bg-[#15803d] text-white hover:scale-105  transition duration-500 ease-in-out add-cart-btn">Add To Cart</button>
                             </div>
                         </div>
         `
         cardContainer.appendChild(newDiv)
     })
+   
 }
 
 
@@ -136,19 +141,32 @@ const displayCategories = (plants) => {
 loadCategories()
 loadAllTrees()
 
-
+//  const addToCart=(trees)=>{
+//     const clickedId=document.getElementById("")
+//     trees.find(tree=>{
+      
+//     })
+     
+//  }
 const cardContainer = document.getElementById("card-container1");
-cardContainer.addEventListener("click",function(event){
-    const yourCart=document.getElementById("your-cart");
-    if(event.target.className.includes("add-cart-btn")){
-        const cartDiv=document.createElement("div");
-        cartDiv.innerHTML=`
+cardContainer.addEventListener("click", function (event) {
+    const yourCart = document.getElementById("your-cart");
+    // console.log(event.target.parentNode.children[2].children[1].children[0].innerText)
+    const treeName=event.target.parentNode.children[0].innerText
+    // console.log(treeName)
+    const treePrice=Number(event.target.parentNode.children[2].children[1].children[0].innerText)
+    // console.log(treePrice)
+    
+    if (event.target.className.includes("add-cart-btn")) {
+        const cartDiv = document.createElement("div");
+        cartDiv.innerHTML = `
         <div class="bg-[#F0FDF4] p-2 rounded-md my-2">
-                        <p>Mango tree</p>
+                        <p>${treeName}</p>
                         <div class="flex justify-between items-center">
-                            <p class="text-gray-400">500</p>
-                            <p>❌</p>
+                            <p class="text-gray-400">${treePrice}</p>
+                            <p class="cursor-pointer">❌</p>
                         </div>
+                      
                     </div>
         `
         yourCart.appendChild(cartDiv)
