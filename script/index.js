@@ -1,3 +1,4 @@
+
 const loadCategories = () => {
     const url = 'https://openapi.programming-hero.com/api/categories'
     fetch(url)
@@ -34,6 +35,18 @@ const loadCategoryTree=(id1,name)=>{
     })
 }
 
+const loadTreeDetails=(info)=>{
+    const url=`https://openapi.programming-hero.com/api/plant/${info}`
+    fetch(url)
+    .then(res=>res.json())
+    .then(data=>displayTreeDetails(data.plants))
+}
+const displayTreeDetails=(details)=>{
+    const detailsContainer=document.getElementById("details-container");
+    detailsContainer.innerHTML=`i am for js`;
+    document.getElementById("my_modal_5").showModal()
+}
+
 const displayCategoryTree=(trees,name)=>{
     // console.log(name)
     const  cardContainer = document.getElementById("card-container1");
@@ -50,7 +63,7 @@ const displayCategoryTree=(trees,name)=>{
             <div class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
-                            <p class="font-bold">${tree.name}</p>
+                            <p onclick="loadTreeDetails('${tree.id}')"  class="font-bold">${tree.name}</p>
                             <p class="line-clamp-3 text-justify">${tree.description}</p>
                             <div class="flex justify-between items-center">
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
@@ -76,7 +89,7 @@ const displayAllTrees = (allTress) => {
         <div class="bg-white rounded-md space-y-3 max-h-lg shadow-lg">
                             <img class="h-48 w-full rounded-tl-md rounded-tr-md" src="${tree.image}" alt="">
                             <div class="p-4 space-y-3">
-                            <p class="font-bold">${tree.name}</p>
+                            <p onclick="loadTreeDetails('${tree.id}')" class="font-bold">${tree.name}</p>
                             <p class="line-clamp-3 text-justify">${tree.description}</p>
                             <div class="flex justify-between items-center">
                                 <p class="bg-[#DCFCE7] px-2 py-1 rounded-3xl text-[#15803d]">${tree.category}</p>
