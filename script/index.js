@@ -15,7 +15,7 @@ const loadAllTrees = () => {
             displayAllTrees(allTress.plants)
             // addToCart(allTress.plants)
         })
-        
+
 }
 
 const removeActive = () => {
@@ -119,7 +119,7 @@ const displayAllTrees = (allTress) => {
         `
         cardContainer.appendChild(newDiv)
     })
-   
+
 }
 
 
@@ -142,30 +142,60 @@ loadCategories()
 loadAllTrees()
 
 
-const cardContainer = document.getElementById("card-container1");
-cardContainer.addEventListener("click", function (event) {
-    const yourCart = document.getElementById("your-cart");
-   
-    const treeName=event.target.parentNode.children[0].innerText
-    
-    const treePrice=Number(event.target.parentNode.children[2].children[1].children[0].innerText)
-    
-    const totalPrice=Number(document.getElementById("total-price").innerText)
-   
-    let currentPrice=totalPrice+treePrice;
-    document.getElementById("total-price").innerText=currentPrice;
-    if (event.target.className.includes("add-cart-btn")) {
-        const cartDiv = document.createElement("div");
-        cartDiv.innerHTML = `
+
+
+function setUpCart(containerId) {
+    const cardContainer = document.getElementById(containerId);
+    cardContainer.addEventListener("click", function (event) {
+        const yourCart = document.getElementById("your-cart");
+
+        // const treeName=event.target.parentNode.children[0].innerText
+
+        // const treePrice=Number(event.target.parentNode.children[2].children[1].children[0].innerText)
+        // // console.log(event.target.parentNode.children[2].children[1].children[0])
+        // const totalPrice=Number(document.getElementById("total-price").innerText)
+
+        // let currentPrice=totalPrice+treePrice;
+        // document.getElementById("total-price").innerText=currentPrice;
+        if (event.target.className.includes("add-cart-btn")) {
+            console.log(event.target.parentNode.children[2].children[1].children[0])
+
+            const treeName = event.target.parentNode.children[0].innerText
+
+            const treePrice = Number(event.target.parentNode.children[2].children[1].children[0].innerText)
+            // console.log(event.target.parentNode.children[2].children[1].children[0])
+            const totalPrice = Number(document.getElementById("total-price").innerText)
+
+            let currentPrice = totalPrice + treePrice;
+            document.getElementById("total-price").innerText = currentPrice;
+
+
+            const cartDiv = document.createElement("div");
+            cartDiv.innerHTML = `
         <div class="bg-[#F0FDF4] p-2 rounded-md my-2">
                         <p>${treeName}</p>
                         <div class="flex justify-between items-center">
                             <p class="text-gray-400">${treePrice}</p>
-                            <p class="cursor-pointer">❌</p>
+                            <p  class="cursor-pointer remove-btn">❌</p>
                         </div>
                       
                     </div>
         `
-        yourCart.appendChild(cartDiv)
-    }
-})
+            yourCart.appendChild(cartDiv)
+
+            cartDiv.querySelector(".remove-btn").addEventListener("click", (e) => {
+                console.log(e.target.parentNode.children[0].innerText)
+                // console.log(e.target.dataset.price)
+                const removeCartPrice = Number(e.target.parentNode.children[0].innerText);
+
+                const afterRemovePrice = currentPrice - removeCartPrice
+
+                document.getElementById("total-price").innerText = afterRemovePrice;
+                cartDiv.remove()
+            })
+        }
+    })
+}
+
+setUpCart("card-container1")
+setUpCart("card-container2")
